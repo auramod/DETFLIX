@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DETFLIX - Episode Player</title>
+    <style>
+        /* CSS Starts Here */
+        body {
+            background-color: #141414; /* Dark Background */
+            color: white;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        h1 {
+            color: #e50914; /* Netflix Red */
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .player-card {
+            width: 90%;
+            max-width: 900px;
+            background: #424040;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0px 30px rgba(198, 15, 15, 0.5);
+            border: 1px solid #333;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            outline: none;
+        }
+
+        .controls-bar {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to top, #000, #1a1a1a);
+        }
+
+        .quality-label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select {
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select:hover {
+            background-color: #e50914;
+            border-color: #e50914;
+        }
+
+        .episode-info {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>DETFLIX</h1>
+    <h3>Now You See Me 2 [2016]</h3>
+
+    <div class="player-card">
+        <video id="detflixVideo" controls poster="https://via.placeholder.com/900x500/000000/FFFFFF?text=Loading+Episode...">
+            <source id="videoSource" src="https://example.com/video_720p.mp4" type="video/mp4">
+            Aapka browser video support nahi karta.
+        </video>
+
+        <div class="controls-bar">
+            <div class="episode-info">
+                <strong>1080p click karte 720p click video play</strong>
+            </div>
+            
+            <div>
+                <span class="quality-label">Quality:</span>
+                <select id="qualitySwitcher">
+                    <option value="https://mibmedicalism.ir/idx/MTAxNDM5OQ==?stream">720p (HD)</option>
+                    <option value="https://mibmedicalism.ir/idx/MTAxNDM5Nw==?stream">1080p (Full HD)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Starts Here
+        const video = document.getElementById('detflixVideo');
+        const source = document.getElementById('videoSource');
+        const switcher = document.getElementById('qualitySwitcher');
+
+        switcher.addEventListener('change', function() {
+            const selectedVideo = this.value;
+            const currentTime = video.currentTime; // Current time ko save karein
+            const isPlaying = !video.paused; // Check karein ki video chal raha tha ya nahi
+
+            // Naya source set karein
+            source.setAttribute('src', selectedVideo);
+            video.load(); // Video reload karein
+
+            // Jab naya video load ho jaye
+            video.addEventListener('loadedmetadata', function() {
+                video.currentTime = currentTime; // Wahi se start karein
+                if (isPlaying) {
+                    video.play();
+                }
+            }, { once: true }); // Ye event sirf ek baar chale
+        });
+    </script>
+
+</body>
+</html>
